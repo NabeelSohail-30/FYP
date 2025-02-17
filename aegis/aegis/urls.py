@@ -15,12 +15,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from surveillance.views import upload_video, process_video, video_detections, dashboard
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('detection.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path("admin/", admin.site.urls),
+    path("", dashboard, name="dashboard"),
+    path("upload/", upload_video, name="upload_video"),
+    path("process/<int:video_id>/", process_video, name="process_video"),
+    path("detections/<int:video_id>/", video_detections, name="video_detections"),
+]
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
