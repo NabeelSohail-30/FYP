@@ -1,0 +1,16 @@
+{% extends 'detection/base.html' %}
+{% block content %}
+    <h2>Your Videos</h2>
+    <a href="{% url 'upload_video' %}">Upload New Video</a>
+    <ul>
+        {% for video in videos %}
+            <li>
+                <video width="320" height="240" controls>
+                    <source src="{{ video.video.url }}" type="video/mp4">
+                </video>
+                <p>Uploaded on: {{ video.uploaded_at }}</p>
+                <a href="#">View Detections</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
