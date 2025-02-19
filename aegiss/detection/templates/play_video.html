@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Processing</title>
+  </head>
+  <body>
+    <h2>Video Processing</h2>
+
+    <video id="videoPlayer" controls autoplay>
+      <source src="{{ video.file.url }}" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+
+    <h3>Detections</h3>
+    <ul id="detections"></ul>
+
+    <script>
+      let socket = new WebSocket(
+        "ws://" + window.location.host + "/ws/detections/{{ video.id }}/"
+      );
+
+      socket.onmessage = function (event) {
+        let data = JSON.parse(event.data);
+        let detectionsList = document.getElementById("detections");
+        let newDetection = document.createElement("li");
+        newDetection.textContent = `${data.label} - ${
+          data.confidence.toFixed(2) * 100
+        }%`;
+        detectionsList.appendChild(newDetection);
+      };
+    </script>
+
+    <hr />
+    <a href="{% url 'dashboard' %}">Go to Dashboard</a>
+  </body>
+</html>

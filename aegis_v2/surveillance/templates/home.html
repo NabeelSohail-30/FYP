@@ -1,0 +1,13 @@
+<form
+  action="{% url 'upload_video' %}"
+  method="POST"
+  enctype="multipart/form-data"
+>
+  {% csrf_token %}
+  <input type="file" name="video" required />
+  <button type="submit">Upload & Process</button>
+</form>
+
+{% for video in videos %}
+<a href="{% url 'process_video' video.id %}">Process Video {{ video.id }}</a>
+{% endfor %}

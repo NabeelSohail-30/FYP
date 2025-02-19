@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Video & Detections</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let alertBox = document.getElementById("detection-alerts");
+
+        let socket = new WebSocket(
+          "ws://" + window.location.host + "/ws/detections/"
+        );
+
+        socket.onmessage = function (event) {
+          let data = JSON.parse(event.data);
+          let detections = data.detections;
+
+          // Clear previous alerts
+          alertBox.innerHTML = "<h2>Real-time Detections</h2>";
+
+          // Display new detections
+          detections.forEach((detection) => {
+            let alertDiv = document.createElement("div");
+            alertDiv.className = "alert";
+            alertDiv.innerText = `${detection}`;
+            alertBox.appendChild(alertDiv);
+          });
+        };
+
+        socket.onclose = function () {
+          console.error("WebSocket closed unexpectedly");
+        };
+      });
+    </script>
+    <style>
+      #video-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      #video-stream {
+        width: 70%;
+        border: 2px solid #000;
+      }
+      #detection-alerts {
+        width: 25%;
+        height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background: #f8f8f8;
+      }
+      .alert {
+        background: red;
+        color: white;
+        padding: 5px;
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Live Video Stream & Real-time Detections</h1>
+
+    <div id="video-container">
+      <!-- Live Video -->
+      <img
+        id="video-stream"
+        src="{% url 'video_feed' video_id=video.id %}"
+        alt="Live Video"
+      />
+
+      <!-- Detection Alerts -->
+      <div id="detection-alerts">
+        <h2>Real-time Detections</h2>
+      </div>
+    </div>
+  </body>
+</html>

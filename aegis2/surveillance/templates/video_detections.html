@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Detections</title>
+  </head>
+  <body>
+    <h2>Detections for {{ video.title }}</h2>
+    <ul>
+      {% for detection in detections %}
+      <li>
+        Timestamp: {{ detection.timestamp }} ms - Detected: {{
+        detection.detected_objects }}
+      </li>
+      {% endfor %}
+    </ul>
+    <a href="/">Back to Dashboard</a>
+  </body>
+</html>

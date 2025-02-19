@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <h2>Detection History</h2>
+    <table border="1">
+      <tr>
+        <th>Video</th>
+        <th>Timestamp</th>
+        <th>Detections</th>
+        <th>Date</th>
+      </tr>
+      {% for detection in detections %}
+      <tr>
+        <td>{{ detection.video.file.name }}</td>
+        <td>{{ detection.timestamp }}</td>
+        <td>{{ detection.detected_objects }}</td>
+        <td>{{ detection.created_at }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <br />
+    <a href="{% url 'upload_video' %}">Upload New Video</a>
+  </body>
+</html>

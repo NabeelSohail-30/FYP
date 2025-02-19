@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <!-- Bootstrap CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-light">
+    <div class="container mt-5">
+      <h2 class="text-center mb-4">Detection Dashboard</h2>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th>Video</th>
+              <th>Detections</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for video in videos %}
+            <tr>
+              <td class="text-center">
+                <video width="150" class="rounded shadow" controls>
+                  <source src="{{ video.file.url }}" type="video/mp4" />
+                </video>
+              </td>
+              <td>
+                <ul class="list-group">
+                  {% for detection in video.filtered_detections %}
+                  {% if detection.confidence > 0.30 %}
+                  <li class="list-group-item">
+                    <strong>{{ detection.label }}</strong> - {{ detection.confidence }}%
+                  </li>
+                  {% endif %}
+                  {% endfor %}
+                </ul>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="{% url 'upload_video' %}" class="btn btn-primary">Upload New Video</a>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+<table>
+  <tr>
+    <th>Video</th>
+    <th>Total Detections</th>
+    <th>Avg. Confidence</th>
+  </tr>
+  {% for key, value in stats.items %}
+  <tr>
+    <td>{{ value.title }}</td>
+    <td>{{ value.total_detections }}</td>
+    <td>{{ value.avg_confidence|floatformat:2 }}</td>
+  </tr>
+  {% endfor %}
+</table>

@@ -1,0 +1,12 @@
+<h2>Detections for {{ video.title }}</h2>
+<video width="640" height="360" controls>
+  <source src="{{ video.video_file.url }}" type="video/mp4" />
+</video>
+<ul>
+  {% for detection in detections %}
+  <li>
+    Object: {{ detection.object_detected }} ({{
+    detection.confidence|floatformat:2 }}%)
+  </li>
+  {% endfor %}
+</ul>
